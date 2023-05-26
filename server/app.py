@@ -9,8 +9,19 @@
 #Step 2: import flask 
 from flask import Flask
 
+from flask_migrate import Migrate
+
+from models import db, Student, Teacher, Review
+
 #Step 3: create flask application
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# migration --> init db 
+
+Migrate(app, db)
+
+db.init_app(app)
 
 @app.route("/")
 def index():

@@ -2,7 +2,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy
+db = SQLAlchemy()
 
 # student/teach/review
 # student has many reviews
@@ -17,6 +17,7 @@ db = SQLAlchemy
 
 class Student(db.Model):
     __tablename__ = "students"
+
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String)
     phase = db.Column(db.Integer)
@@ -42,6 +43,8 @@ class Teacher(db.Model):
 
     created_at = db.Column(db.DateTime, server_default = db.func.now())
     updated_at = db.Column(db.DateTime, onupdate = db.func.now())
+
+    reviews = db.relationship("Review", backref = "student")
 
     def __repr__(self):
         print (f"<Teacher name={self.name} favorite_language={self.favorite_language}>")
